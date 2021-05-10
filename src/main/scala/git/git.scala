@@ -6,6 +6,7 @@ import java.time.{ZoneId, ZonedDateTime}
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import scala.annotation.tailrec
+import scala.collection.mutable.ListBuffer
 
 case class GitProject(path: Path) {
 
@@ -26,7 +27,8 @@ case class DiffStatus(path: String, add: Int, remove: Int)
 
 class GitLogBuilder(project: GitProject) {
 
-  trait CommandOption {
+  abstract class CommandOption {
+    GitLogBuilder.this.options += this
     def getCommandParts(): List[String]
   }
   class CommandOption0(longOption: String) extends CommandOption {
@@ -54,6 +56,8 @@ class GitLogBuilder(project: GitProject) {
     override def getCommandParts(): List[String] = value.map(it=>s"--$longOption=$it").toList
   }
 
+  private val options = ListBuffer[CommandOption]()
+
   val limit = new CommandOption1[Int]("max-count")
   val skip = new CommandOption1[Int]("skip")
   val since = new CommandOption1[ZonedDateTime]("since")
@@ -80,24 +84,11 @@ class GitLogBuilder(project: GitProject) {
     val command = scala.collection.mutable.ListBuffer[String]()
 
     command ++= List("git", "log")
-    command ++= limit.getCommandParts()
-    command ++= skip.getCommandParts()
-    command ++= since.getCommandParts()
-    command ++= until.getCommandParts()
-    command ++= authors.getCommandParts()
-    command ++= committers.getCommandParts()
-    command ++= grep.getCommandParts()
-    _merges.map { flag => val it  = if(flag) "--merges" else "--no-merges"; command += it }
-    command ++= minParents.getCommandParts()
-    command ++= maxParents.getCommandParts()
-    command ++= all.getCommandParts()
-    command ++= branches.getCommandParts()
-    command ++= tags.getCommandParts()
-    command ++= remotes.getCommandParts()
-    command ++= excludes.getCommandParts()
-    command ++= format.getCommandParts()
-    command ++= numstat.getCommandParts()
+    options.foreach { option =>
+      command ++= option.getCommandParts()
+    }
 
+    _merges.map { flag => val it  = if(flag) "--merges" else "--no-merges"; command += it }
     command.toVector
   }
 
