@@ -11,6 +11,7 @@ import scala.collection.mutable.ListBuffer
 case class GitProject(path: Path) {
 
   def log() = new GitLogBuilder(this)
+  def pull() = %("git", "pull")(path)
 
 }
 
