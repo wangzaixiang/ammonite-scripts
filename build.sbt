@@ -2,7 +2,7 @@ organization := "com.github.wangzaixiang"
 
 name := "ammonite-scripts"
 
-version := "0.1-SNAPSHOT"
+version := "0.1"
 
 scalaVersion := "2.13.5"
 
@@ -27,7 +27,12 @@ test/publishArtifact := false
 pomIncludeRepository := { _ => false }
 
 pomExtra := (
-  <url>http://github.com/wangzaixiang/ammonite-scripts</url>
+  <url>https://github.com/wangzaixiang/ammonite-scripts</url>
+    <scm>
+        <connection>scm:git:https://github.com/wangzaixiang/ammonite-scripts.git</connection>
+        <developerConnection>scm:git:https://github.com/wangzaixiang/ammonite-scripts.git</developerConnection>
+        <url>https://github.com/wangzaixiang/ammonite-scripts</url>
+    </scm>
     <licenses>
         <license>
             <name>BSD-style</name>

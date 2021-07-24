@@ -12,10 +12,10 @@ object Test1 {
 
   def main(args: Array[String]): Unit = {
 
-    val rootDir = root/"Users"/"walter01.wang"/"Desktop"/"workspaces"/"xl"
+    val rootDir = home/"Desktop"/"workspaces"/"xl"
     val subDirs = ls! rootDir
 
-    subDirs.foreach { dir =>
+    subDirs.filter(_.isDir).foreach { dir =>
 
       println(s"==== project $dir")
       // val dir = root / "Users" / "walter01.wang" / "Desktop" / "workspaces" / "xl" / "api"
@@ -25,7 +25,7 @@ object Test1 {
       val commits = project.log()
         // .since(ts"2021-05-06T00:00:00+08:00")
         // .until(ts"2021-05-10T00:00:00+08:00")
-        .since(today - duration"P1D") //ts"2021-05-06T00:00:00+08:00"
+        .since(today - duration"P4D") //ts"2021-05-06T00:00:00+08:00"
         .until(today)
         .all()
         // .authors("cuiwei")

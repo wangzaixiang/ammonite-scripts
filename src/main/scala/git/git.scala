@@ -78,6 +78,9 @@ class GitLogBuilder(project: GitProject) {
 
   private var _merges: Option[Boolean] = None
   private var _paths: List[String] = Nil
+  private var _revisions: List[String] = Nil
+
+  def revisions(args: String*) = { this._revisions = args.toList; this }
 
   def merges(flag: Boolean) = { this._merges = Some(flag); this }
 
@@ -90,6 +93,11 @@ class GitLogBuilder(project: GitProject) {
     }
 
     _merges.map { flag => val it  = if(flag) "--merges" else "--no-merges"; command += it }
+    _revisions.map { it => command += it }
+    if(_paths.nonEmpty) {
+      command += "--"
+      _paths.map { it=> command += it}
+    }
     command.toVector
   }
 
