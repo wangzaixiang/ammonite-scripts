@@ -2,12 +2,12 @@ organization := "com.github.wangzaixiang"
 
 name := "ammonite-scripts"
 
-version := "0.1"
+version := "0.1.2"
 
 scalaVersion := "2.13.5"
 
 libraryDependencies ++= Seq(
-    "com.lihaoyi" %% "ammonite-ops" % "2.3.8"
+    "com.lihaoyi" %% "ammonite-ops" % "2.3.8",
 )
 
 publishMavenStyle := true
