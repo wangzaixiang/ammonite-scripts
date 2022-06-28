@@ -24,6 +24,4 @@ package object git {
     now.`with`(LocalTime.ofSecondOfDay(0))
   }
 
-
-
 }

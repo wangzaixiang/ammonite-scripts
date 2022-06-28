@@ -17,11 +17,11 @@ case class GitProject(path: Path) {
 
 case class Commit(id: String,
                   author: Option[String]=None,
-                  autorDate: Option[ZonedDateTime] = None,
+                  authorDate: Option[ZonedDateTime] = None,
                   committer: Option[String] = None,
                   commitDate: Option[ZonedDateTime] = None,
                   merge: List[String] = Nil,
-                  messgae: Option[String] = None,
+                  message: Option[String] = None,
                   changes: List[DiffStatus] = Nil)
 case class DiffStatus(path: String, add: Int, remove: Int)
 
@@ -137,7 +137,7 @@ class GitLogBuilder(project: GitProject) {
       case LINE_AUTHOR(author) :: tail =>
         parseLog(tail, aggr, current.map { c => c.copy(author = Some(author))})
       case LINE_AUTHOR_DATE(date) :: tail =>
-        parseLog(tail, aggr, current.map { c=> c.copy(autorDate = Some(parseDate(date))) })
+        parseLog(tail, aggr, current.map { c=> c.copy(authorDate = Some(parseDate(date))) })
       case LINE_COMMITTER(author) :: tail =>
         parseLog(tail, aggr, current.map { c => c.copy(committer = Some(author))})
       case LINE_COMMITTER_DATE(date) :: tail =>
@@ -147,8 +147,8 @@ class GitLogBuilder(project: GitProject) {
       case LINE_EMPTY() :: tail =>
         parseLog(tail, aggr, current)
       case LINE_MSG(msg) :: tail =>
-        parseLog(tail, aggr, current.map { c => c.copy( messgae =
-          if(c.messgae == None) Some(msg) else Some(c.messgae.get + "\n" + msg) )
+        parseLog(tail, aggr, current.map { c => c.copy( message =
+          if(c.message == None) Some(msg) else Some(c.message.get + "\n" + msg) )
         })
       case LINE_FILE(add, remove, path) :: tail =>
         parseLog(tail, aggr, current.map { c => c.copy(changes = parseChange(add, remove, path) :: c.changes)})

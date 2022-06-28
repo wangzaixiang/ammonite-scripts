@@ -2,7 +2,7 @@ organization := "com.github.wangzaixiang"
 
 name := "ammonite-scripts"
 
-version := "0.1.2"
+version := "0.1.3"
 
 scalaVersion := "2.13.5"
 
